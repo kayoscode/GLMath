@@ -175,5 +175,6 @@ struct Vector4 {
 
 typedef Vector4<> Vector4f;
 typedef Vector4<double> Vector4d;
+typedef Vector4<int> Vector4i;
 
 #endif

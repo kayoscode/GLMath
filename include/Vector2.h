@@ -93,5 +93,6 @@ struct Vector2 {
 
 typedef Vector2<> Vector2f;
 typedef Vector2<double> Vector2d;
+typedef Vector2<int> Vector2i;
 
 #endif

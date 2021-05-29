@@ -250,4 +250,8 @@ class Quaternion
         float x, y, z, w;
 };
 
+typedef Quaternion<float> Quaternionf;
+typedef Quaternion<double> Quaterniond;
+typedef Quaternion<int> Quaternioni;
+
 #endif

@@ -118,6 +118,7 @@ struct Vector3 {
 
 typedef Vector3<> Vector3f;
 typedef Vector3<double> Vector3d;
+typedef Vector3<int> Vector3i;
 
 
 #endif

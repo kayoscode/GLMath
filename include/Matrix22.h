@@ -11,28 +11,32 @@ struct Matrix22 {
          * constructor
          * */
         Matrix22(T m00 = 1, T m01 = 0, T m10 = 0, T m11 = 1)
-            :m00(m00), m01(m01),
-            m10(m10), m11(m11)
         {
+            data[0][0] = m00;
+            data[1][0] = m10;
+            data[0][1] = m01;
+            data[1][1] = m11;
         }
 
         /**
          * copy constructor
          * */
         Matrix22(const Matrix22<T>& mat)
-            :m00(mat.m00), m01(mat.m01),
-            m10(mat.m10), m11(mat.m11)
         {
+            data[0][0] = mat.data[0][0];
+            data[1][0] = mat.data[1][0];
+            data[0][1] = mat.data[0][1];
+            data[1][1] = mat.data[1][1];
         }
 
         /**
          * assignment operator
          * */
         Matrix22<T>& operator=(const Matrix22<T>& mat){
-            m00 = mat.m00;
-            m01 = mat.m01;
-            m10 = mat.m10;
-            m11 = mat.m11;
+            data[0][0] = mat.data[0][0];
+            data[0][1] = mat.data[0][1];
+            data[1][0] = mat.data[1][0];
+            data[1][1] = mat.data[1][1];
 
             return *this;
         }
@@ -43,10 +47,10 @@ struct Matrix22 {
         Matrix22<T> operator+(const Matrix22<T>& mat){
             Matrix22<T> ret;
 
-            ret.m00 = m00 + mat.m00;
-            ret.m01 = m01 + mat.m01;
-            ret.m10 = m10 + mat.m10;
-            ret.m11 = m11 + mat.m11;
+            ret.data[0][0] = data[0][0] + mat.data[0][0];
+            ret.data[0][1] = data[0][1] + mat.data[0][1];
+            ret.data[1][0] = data[1][0] + mat.data[1][0];
+            ret.data[1][1] = data[1][1] + mat.data[1][1];
 
             return ret;
         }
@@ -55,10 +59,10 @@ struct Matrix22 {
          * addition operator
          * */
         Matrix22<T>& operator+=(const Matrix22<T>& mat){
-            m00 += mat.m00;
-            m01 += mat.m01;
-            m01 += mat.m10;
-            m11 += mat.m11;
+            data[0][0] += mat.data[0][0];
+            data[0][1] += mat.data[0][1];
+            data[0][1] += mat.data[1][0];
+            data[1][1] += mat.data[1][1];
 
             return *this;
         }
@@ -69,10 +73,10 @@ struct Matrix22 {
         Matrix22<T> operator-(const Matrix22<T>& mat){
             Matrix22<T> ret;
 
-            ret.m00 = m00 - mat.m00;
-            ret.m01 = m01 - mat.m01;
-            ret.m10 = m10 - mat.m10;
-            ret.m11 = m11 - mat.m11;
+            ret.data[0][0] = data[0][0] - mat.data[0][0];
+            ret.data[0][1] = data[0][1] - mat.data[0][1];
+            ret.data[1][0] = data[1][0] - mat.data[1][0];
+            ret.data[1][1] = data[1][1] - mat.data[1][1];
 
             return ret;
         }
@@ -81,10 +85,10 @@ struct Matrix22 {
          * subtracts a matrix
          * */
         Matrix22<T>& operator-=(const Matrix22<T>& mat){
-            m00 -= mat.m00;
-            m01 -= mat.m01;
-            m01 -= mat.m10;
-            m11 -= mat.m11;
+            data[0][0] -= mat.data[0][0];
+            data[0][1] -= mat.data[0][1];
+            data[0][1] -= mat.data[1][0];
+            data[1][1] -= mat.data[1][1];
 
             return *this;
         }
@@ -95,15 +99,15 @@ struct Matrix22 {
         Matrix22<T> operator*(const Matrix22<T>& mat){
             Matrix22<T> ret;
 
-            T m00 = this->m00 * mat.m00 + this->m10 * mat.m01;
-            T m01 = this->m01 * mat.m00 + this->m11 * mat.m01;
-            T m10 = this->m00 * mat.m10 + this->m10 * mat.m11;
-            T m11 = this->m01 * mat.m10 + this->m11 * mat.m11;
+            T m00 = this->data[0][0] * mat.data[0][0] + this->data[1][0] * mat.data[0][1];
+            T m01 = this->data[0][1] * mat.data[0][0] + this->data[1][1] * mat.data[0][1];
+            T m10 = this->data[0][0] * mat.data[1][0] + this->data[1][0] * mat.data[1][1];
+            T m11 = this->data[0][1] * mat.data[1][0] + this->data[1][1] * mat.data[1][1];
 
-            ret.m00 = m00;
-            ret.m01 = m01;
-            ret.m10 = m10;
-            ret.m11 = m11;
+            ret.data[0][0] = m00;
+            ret.data[0][1] = m01;
+            ret.data[1][0] = m10;
+            ret.data[1][1] = m11;
         
             return ret;
         }
@@ -112,15 +116,15 @@ struct Matrix22 {
          * multiply by another 2x2 matrix
          * */
         Matrix22<T> operator*=(const Matrix22<T>& mat){
-            T m00 = this->m00 * mat.m00 + this->m10 * mat.m01;
-            T m01 = this->m01 * mat.m00 + this->m11 * mat.m01;
-            T m10 = this->m00 * mat.m10 + this->m10 * mat.m11;
-            T m11 = this->m01 * mat.m10 + this->m11 * mat.m11;
+            T m00 = this->data[0][0] * mat.data[0][0] + this->data[1][0] * mat.data[0][1];
+            T m01 = this->data[0][1] * mat.data[0][0] + this->data[1][1] * mat.data[0][1];
+            T m10 = this->data[0][0] * mat.data[1][0] + this->data[1][0] * mat.data[1][1];
+            T m11 = this->data[0][1] * mat.data[1][0] + this->data[1][1] * mat.data[1][1];
 
-            this->m00 = m00;
-            this->m01 = m01;
-            this->m10 = m10;
-            this->m11 = m11;
+            this->data[0][0] = m00;
+            this->data[0][1] = m01;
+            this->data[1][0] = m10;
+            this->data[1][1] = m11;
 
             return *this;
         }
@@ -133,11 +137,11 @@ struct Matrix22 {
          * gets the matrix's transpose
          * */
         Matrix22<T>& transpose(){
-            T m01 = this->m10;
-            T m10 = this->m01;
+            T m01 = this->data[1][0];
+            T m10 = this->data[0][1];
 
-            this->m01 = m01;
-            this->m10 = m10;
+            this->data[0][1] = m01;
+            this->data[1][0] = m10;
 
             return *this;
         }
@@ -152,15 +156,15 @@ struct Matrix22 {
             if(determinant != 0) {
                 T determinant_inv = ((T)1)/determinant;
 
-                T t00 =  this->m11*determinant_inv;
-                T t01 = -this->m01*determinant_inv;
-                T t11 =  this->m00*determinant_inv;
-                T t10 = -this->m10*determinant_inv;
+                T t00 =  this->data[1][1]*determinant_inv;
+                T t01 = -this->data[0][1]*determinant_inv;
+                T t11 =  this->data[0][0]*determinant_inv;
+                T t10 = -this->data[1][0]*determinant_inv;
 
-                this->m00 = t00;
-                this->m01 = t01;
-                this->m10 = t10;
-                this->m11 = t11;
+                this->data[0][0] = t00;
+                this->data[0][1] = t01;
+                this->data[1][0] = t10;
+                this->data[1][1] = t11;
             }
 
             return *this;
@@ -170,10 +174,10 @@ struct Matrix22 {
          * sets the matrix to identity
          * */
         Matrix22<T>& setIdentity(){
-            m00 = 1;
-            m01 = 0;
-            m10 = 0;
-            m11 = 1;
+            data[0][0] = 1;
+            data[0][1] = 0;
+            data[1][0] = 0;
+            data[1][1] = 1;
 
             return *this;
         }
@@ -182,10 +186,10 @@ struct Matrix22 {
          * negates the matrix
          * */
         Matrix22<T>& negate(){
-            m00 = -m00;
-            m01 = -m01;
-            m10 = -m10;
-            m11 = -m11;
+            data[0][0] = -data[0][0];
+            data[0][1] = -data[0][1];
+            data[1][0] = -data[1][0];
+            data[1][1] = -data[1][1];
 
             return *this;
         }
@@ -194,10 +198,10 @@ struct Matrix22 {
          * sets the matrix to 0
          * */
         Matrix22<T>& setZero(){
-            m00 = 0;
-            m01 = 0;
-            m10 = 0;
-            m11 = 0;
+            data[0][0] = 0;
+            data[0][1] = 0;
+            data[1][0] = 0;
+            data[1][1] = 0;
 
             return *this;
         }
@@ -206,7 +210,7 @@ struct Matrix22 {
          * gets the determinant of the 2x2 matrix
          * */
         T det(){
-            return m00 * m11 - m01 * m10;
+            return data[0][0] * data[1][1] - data[0][1] * data[1][0];
         }
 
         /**
@@ -214,20 +218,18 @@ struct Matrix22 {
          * */
         operator std::string(){
             char buff[100];
-            snprintf(buff, sizeof(buff), "\n[%4.4f] [%4.4f]\n[%4.4f] [%4.4f]", m00, m01, m10, m11);
+            snprintf(buff, sizeof(buff), "\n[%4.4f] [%4.4f]\n[%4.4f] [%4.4f]", data[0][0], data[0][1], data[1][0], data[1][1]);
 
             return std::string(buff);
         }
 
-    /**
-     * TODO: use the vector2 class to scale it
-     * */
-
-    T m00, m01;
-    T m10, m11;
+        T data[2][2];
+        //T data[0][0], data[0][1];
+        //T data[1][0], data[1][1];
 };
 
 typedef Matrix22<float> Matrix22f;
 typedef Matrix22<double> Matrix22d;
+typedef Matrix22<int> Matrix22i;
 
 #endif

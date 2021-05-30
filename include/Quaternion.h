@@ -125,7 +125,7 @@ class Quaternion
         }
 
         Quaternion<T>& setToAxisAngle(const Vector3<T>& axis, T angle) {
-            Matrix44 rot;
+            Matrix44<T> rot;
             rot.rotate(axis, angle);
 
             setMatrix(rot);

@@ -81,13 +81,13 @@ class Quaternion
         }
 
         Vector3<T> operator*(const Vector3<T>& right) {
-            Matrix44 trans = toMatrix();
-            Vector4 mod = trans * Vector4(right.x, right.y, right.z, 0);
-            return Vector3(mod.x, mod.y, mod.z);
+            Matrix44<T> trans = toMatrix();
+            Vector4<T> mod = trans * Vector4<T>(right.x, right.y, right.z, 0);
+            return Vector3<T>(mod.x, mod.y, mod.z);
         }
 
         Vector4<T> operator*(const Vector4<T>& right) {
-            Matrix44 trans = toMatrix();
+            Matrix44<T> trans = toMatrix();
             return trans * right;
         }
 

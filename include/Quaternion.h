@@ -134,7 +134,108 @@ class Quaternion
             return *this;
         }
 
-        static Quaternion<T> slerp(const Quaternion<T>& a, const Quaternion<T>& b, float blend) {
+        /**
+         * Sets the rotation to a euler angles value
+         * https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles
+         * */
+        Quaternion<T> setFromEulerAngles(const Vector3<T>& axis) {
+            T yaw = axis.z;
+            T pitch = axis.y;
+            T roll = axis.x;
+
+            T cy = (T)cos(yaw * 0.5);
+            T sy = (T)sin(yaw * 0.5);
+            T cp = (T)cos(pitch * 0.5);
+            T sp = (T)sin(pitch * 0.5);
+            T cr = (T)cos(roll * 0.5);
+            T sr = (T)sin(roll * 0.5);
+
+            this->w = cr * cp * cy + sr * sp * sy;
+            this->x = sr * cp * cy - cr * sp * sy;
+            this->y = cr * sp * cy + sr * cp * sy;
+            this->z = cr * cp * sy - sr * sp * cy;
+
+            normalize();
+
+            return *this;
+        }
+        
+        /**
+         * Converts quaternion to Euler angles
+         * */
+        Vector3<T> toEulerAngles() {
+            T yaw;
+            T pitch;
+            T roll;
+
+            //roll x
+            T sinr_cosp = 2 * (w * x + y * z);
+            T cosr_cosp = 1 - 2 * (x * x + y * y);
+            roll = (T)std::atan2(sinr_cosp, cosr_cosp);
+
+            // pitch (y-axis rotation)
+            T sinp = 2 * (w * y - z * x);
+            if (std::abs(sinp) >= 1) {
+                pitch = (T)std::copysign(3.1415926 / 2, sinp); // use 90 degrees if out of range
+            }
+            else {
+                pitch = (T)std::asin(sinp);
+            }
+
+            // yaw (z-axis rotation)
+            T siny_cosp = 2 * (w * z + x * y);
+            T cosy_cosp = 1 - 2 * (y * y + z * z);
+            yaw = std::atan2(siny_cosp, cosy_cosp);
+
+            return Vector3<T>(roll, pitch, yaw);
+        }
+
+        /**
+         * Rotates the quaternion by an axis angle
+         * Not the fastest, so I can try to optimize this in the future!
+         * TODO
+         * */
+        Quaternion<T> rotate(const Vector3<T>& axis, T angle) {
+            Matrix44<T> matrix(toMatrix());
+            matrix.rotate(axis, angle);
+
+            T trace = matrix.data[0][0] + matrix.data[1][1] + matrix.data[2][2]; 
+            if( trace > 0 ) {
+                T s = 0.5f / sqrtf(trace + 1.0f);
+                w = 0.25f / s;
+                x = ( matrix.data[2][1] - matrix.data[1][2] ) * s;
+                y = ( matrix.data[0][2] - matrix.data[2][0] ) * s;
+                z = ( matrix.data[1][0] - matrix.data[0][1] ) * s;
+            } else {
+                if (matrix.data[0][0] > matrix.data[1][1] && matrix.data[0][0] > matrix.data[2][2]) {
+                    T s = 2.0f * sqrtf(1.0f + matrix.data[0][0] - matrix.data[1][1] - matrix.data[2][2]);
+                    w = (matrix.data[2][1] - matrix.data[1][2]) / s;
+                    x = 0.25f * s;
+                    y = (matrix.data[0][1] + matrix.data[1][0]) / s;
+                    z = (matrix.data[0][2] + matrix.data[2][0]) / s;
+                } else if (matrix.data[1][1] > matrix.data[2][2]) {
+                    T s = 2.0f * sqrtf(1.0f + matrix.data[1][1] - matrix.data[0][0] - matrix.data[2][2]);
+                    w = (matrix.data[0][2] - matrix.data[2][0]) / s;
+                    x = (matrix.data[0][1] + matrix.data[1][0]) / s;
+                    y = 0.25f * s;
+                    z = (matrix.data[1][2] + matrix.data[2][1]) / s;
+                }
+                else {
+                    T s = 2.0f * sqrtf(1.0f + matrix.data[2][2] - matrix.data[0][0] - matrix.data[1][1]);
+                    w = (matrix.data[1][0] - matrix.data[0][1]) / s;
+                    x = (matrix.data[0][2] + matrix.data[2][0]) / s;
+                    y = (matrix.data[1][2] + matrix.data[2][1]) / s;
+                    z = 0.25f * s;
+                }
+            }
+
+            normalize();
+
+            return *this;
+        }
+
+        static Quaternion<T> slerp(const Quaternion<T> &a, const Quaternion<T> &b, float blend)
+        {
             Quaternion<T> result;
 
             T dot = a.w * b.w + a.x * b.x + a.y * b.y + a.z * b.z;
@@ -159,7 +260,8 @@ class Quaternion
             return result;
         }
 
-        Quaternion<T>& lookRotation(const Vector3<T>& f, const Vector3<T>& u) {
+        Quaternion<T> &lookRotation(const Vector3<T> &f, const Vector3<T> &u)
+        {
             Vector3<T> forward(f);
             Vector3<T> up(u);
 
@@ -186,7 +288,8 @@ class Quaternion
             return *this;
         }
 
-        Quaternion<T>& setMatrix(const Matrix44<T>& matrix) {
+        Quaternion<T> &setMatrix(const Matrix44<T> &matrix)
+        {
             T m00, m01, m02;
             T m10, m11, m12;
             T m20, m21, m22;

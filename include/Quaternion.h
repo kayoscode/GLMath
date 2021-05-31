@@ -7,28 +7,30 @@
 
 #include "math.h"
 
+#define MAX(a, b) ((a) > (b))? (a) : (b)
+
 template<typename T>
 class Quaternion
 {
     public: 
-        Quaternion(float x = 0, float y = 0, float z = 0, float w = 1) 
+        Quaternion(T x = 0, T y = 0, T z = 0, T w = 1) 
             :x(x), y(y), z(z), w(w)
         {
         }
 
-        Quaternion(const Vector3& axis, float angle) 
+        Quaternion(const Vector3<T>& axis, T angle) 
             :x(0), y(0), z(0), w(1)
         {
             setToAxisAngle(axis, angle);
         }
 
-        Quaternion(const Quaternion& q) 
+        Quaternion(const Quaternion<T>& q) 
             :x(q.x), y(q.y), z(q.z), w(q.w)
         {
 
         }
 
-        Quaternion& setIdentity() {
+        Quaternion<T>& setIdentity() {
             x = 0;
             y = 0;
             z = 0;
@@ -37,12 +39,12 @@ class Quaternion
             return *this;
         }
 
-        float length() const {
+        T length() const {
             return sqrt(x * x + y * y + z * z + w * w);
         }
 
-        Quaternion& normalize() {
-            float mag = length();
+        Quaternion<T>& normalize() {
+            T mag = length();
 
             if(mag == 0) return *this;
 
@@ -54,7 +56,7 @@ class Quaternion
             return *this;
         }
 
-        Quaternion& negate() {
+        Quaternion<T>& negate() {
             x = -x;
             y = -y;
             z = -z;
@@ -63,13 +65,13 @@ class Quaternion
             return *this;
         }
 
-        Quaternion operator*(const Quaternion& right) {
-            return Quaternion(
+        Quaternion<T> operator*(const Quaternion<T>& right) {
+            return Quaternion<T>(
                 this->x * right.w + this->w * right.x + this->y * right.z - this->z * right.y, this->y * right.w + this->w * right.y + this->z * right.x - this->x * right.z, this->z * right.w + this->w * right.z + this->x * right.y - this->y * right.x,
                 this->w * right.w - this->x * right.x - this->y * right.y - this->z * right.z);
         }
 
-        Quaternion& operator*=(const Quaternion& right) {
+        Quaternion<T>& operator*=(const Quaternion<T>& right) {
             this->x = this->x * right.w + this->w * right.x + this->y * right.z - this->z * right.y;
             this->y = this->y * right.w + this->w * right.y + this->z * right.x - this->x * right.z;
             this->z = this->z * right.w + this->w * right.z + this->x * right.y - this->y * right.x;
@@ -78,51 +80,51 @@ class Quaternion
             return *this;
         }
 
-        Vector3 operator*(const Vector3& right) {
+        Vector3<T> operator*(const Vector3<T>& right) {
             Matrix44 trans = toMatrix();
             Vector4 mod = trans * Vector4(right.x, right.y, right.z, 0);
             return Vector3(mod.x, mod.y, mod.z);
         }
 
-        Vector4 operator*(const Vector4& right) {
+        Vector4<T> operator*(const Vector4<T>& right) {
             Matrix44 trans = toMatrix();
             return trans * right;
         }
 
-        Matrix44 toMatrix() const {
-            Matrix44 matrix;
+        Matrix44<T> toMatrix() const {
+            Matrix44<T> matrix;
 
-            float xy = x * y;
-            float xz = x * z;
-            float xw = x * w;
-            float yz = y * z;
-            float yw = y * w;
-            float zw = z * w;
-            float xSquared = x * x;
-            float ySquared = y * y;
-            float zSquared = z * z;
+            T xy = x * y;
+            T xz = x * z;
+            T xw = x * w;
+            T yz = y * z;
+            T yw = y * w;
+            T zw = z * w;
+            T xSquared = x * x;
+            T ySquared = y * y;
+            T zSquared = z * z;
 
-            matrix.m00 = 1 - 2 * (ySquared + zSquared);
-            matrix.m01 = 2 * (xy - zw);
-            matrix.m02 = 2 * (xz + yw);
-            matrix.m03 = 0;
-            matrix.m10 = 2 * (xy + zw);
-            matrix.m11 = 1 - 2 * (xSquared + zSquared);
-            matrix.m12 = 2 * (yz - xw);
-            matrix.m13 = 0;
-            matrix.m20 = 2 * (xz - yw);
-            matrix.m21 = 2 * (yz + xw);
-            matrix.m22 = 1 - 2 * (xSquared + ySquared);
-            matrix.m23 = 0;
-            matrix.m30 = 0;
-            matrix.m31 = 0;
-            matrix.m32 = 0;
-            matrix.m33 = 1;
+            matrix.data[0][0] = 1 - 2 * (ySquared + zSquared);
+            matrix.data[0][1] = 2 * (xy - zw);
+            matrix.data[0][2] = 2 * (xz + yw);
+            matrix.data[0][3] = 0;
+            matrix.data[1][0] = 2 * (xy + zw);
+            matrix.data[1][1] = 1 - 2 * (xSquared + zSquared);
+            matrix.data[1][2] = 2 * (yz - xw);
+            matrix.data[1][3] = 0;
+            matrix.data[2][0] = 2 * (xz - yw);
+            matrix.data[2][1] = 2 * (yz + xw);
+            matrix.data[2][2] = 1 - 2 * (xSquared + ySquared);
+            matrix.data[2][3] = 0;
+            matrix.data[3][0] = 0;
+            matrix.data[3][1] = 0;
+            matrix.data[3][2] = 0;
+            matrix.data[3][3] = 1;
 
             return matrix;
         }
 
-        Quaternion& setToAxisAngle(const Vector3& axis, float angle) {
+        Quaternion<T>& setToAxisAngle(const Vector3<T>& axis, T angle) {
             Matrix44 rot;
             rot.rotate(axis, angle);
 
@@ -132,11 +134,11 @@ class Quaternion
             return *this;
         }
 
-        static Quaternion slerp(const Quaternion& a, const Quaternion& b, float blend) {
-            Quaternion result;
+        static Quaternion<T> slerp(const Quaternion<T>& a, const Quaternion<T>& b, float blend) {
+            Quaternion<T> result;
 
-            float dot = a.w * b.w + a.x * b.x + a.y * b.y + a.z * b.z;
-            float blendI = 1.0f - blend;
+            T dot = a.w * b.w + a.x * b.x + a.y * b.y + a.z * b.z;
+            T blendI = 1.0f - blend;
 
             if (dot < 0)
             {
@@ -157,26 +159,26 @@ class Quaternion
             return result;
         }
 
-        Quaternion& lookRotation(const Vector3& forward, const Vector3& up) {
-            Vector3 forward(f);
-            Vector3 up(u);
+        Quaternion<T>& lookRotation(const Vector3<T>& f, const Vector3<T>& u) {
+            Vector3<T> forward(f);
+            Vector3<T> up(u);
 
             forward.normalize();
             up.normalize();
-            Vector3 right = forward % up;
+            Vector3<T> right = forward % up;
 
-            Matrix44 rot;
-            rot.m00 = right.x;
-            rot.m10 = right.y;
-            rot.m20 = right.z;
+            Matrix44<T> rot;
+            rot.data[0][0] = right.x;
+            rot.data[1][0] = right.y;
+            rot.data[2][0] = right.z;
 
-            rot.m01 = up.x;
-            rot.m11 = up.y;
-            rot.m21 = up.z;
+            rot.data[0][1] = up.x;
+            rot.data[1][1] = up.y;
+            rot.data[2][1] = up.z;
 
-            rot.m02 = forward.x;
-            rot.m12 = forward.y;
-            rot.m22 = forward.z;
+            rot.data[0][2] = forward.x;
+            rot.data[1][2] = forward.y;
+            rot.data[2][2] = forward.z;
 
             setMatrix(rot);
             normalize();
@@ -184,28 +186,28 @@ class Quaternion
             return *this;
         }
 
-        Quaternion& setMatrix(const Matrix44& matrix) {
-            float m00, m01, m02;
-            float m10, m11, m12;
-            float m20, m21, m22;
+        Quaternion<T>& setMatrix(const Matrix44<T>& matrix) {
+            T m00, m01, m02;
+            T m10, m11, m12;
+            T m20, m21, m22;
 
-            m00 = matrix.m00;
-            m01 = matrix.m01;
-            m02 = matrix.m02;
+            m00 = matrix.data[0][0];
+            m01 = matrix.data[0][1];
+            m02 = matrix.data[0][2];
 
-            m10 = matrix.m10;
-            m11 = matrix.m11;
-            m12 = matrix.m12;
+            m10 = matrix.data[1][0];
+            m11 = matrix.data[1][1];
+            m12 = matrix.data[1][2];
 
-            m20 = matrix.m20;
-            m21 = matrix.m21;
-            m22 = matrix.m22;
+            m20 = matrix.data[2][0];
+            m21 = matrix.data[2][1];
+            m22 = matrix.data[2][2];
 
-            float s;
-            float tr = m00 + m11 + m22;
+            T s;
+            T tr = m00 + m11 + m22;
             if (tr >= 0.0)
             {
-                s = (float)sqrt(tr + 1.0);
+                s = (T)sqrt(tr + 1.0);
                 w = s * 0.5f;
                 s = 0.5f / s;
                 x = (m21 - m12) * s;
@@ -214,10 +216,10 @@ class Quaternion
             }
             else
             {
-                float max = MAX(MAX(m00, m11), m22);
+                T max = MAX(MAX(m00, m11), m22);
                 if (max == m00)
                 {
-                    s = (float)sqrt(m00 - (m11 + m22) + 1.0);
+                    s = (T)sqrt(m00 - (m11 + m22) + 1.0);
                     x = s * 0.5f;
                     s = 0.5f / s;
                     y = (m01 + m10) * s;
@@ -226,7 +228,7 @@ class Quaternion
                 }
                 else if (max == m11)
                 {
-                    s = (float)sqrt(m11 - (m22 + m00) + 1.0);
+                    s = (T)sqrt(m11 - (m22 + m00) + 1.0);
                     y = s * 0.5f;
                     s = 0.5f / s;
                     z = (m12 + m21) * s;
@@ -235,7 +237,7 @@ class Quaternion
                 }
                 else
                 {
-                    s = (float)sqrt(m22 - (m00 + m11) + 1.0);
+                    s = (T)sqrt(m22 - (m00 + m11) + 1.0);
                     z = s * 0.5f;
                     s = 0.5f / s;
                     x = (m20 + m02) * s;
@@ -247,7 +249,7 @@ class Quaternion
             return *this;
         }
 
-        float x, y, z, w;
+        T x, y, z, w;
 };
 
 typedef Quaternion<float> Quaternionf;

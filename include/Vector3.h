@@ -88,7 +88,7 @@ struct Vector3 {
 
     //magnitude
     T magnitude() const {
-        return sqrtl(x * x + y * y + z * z);
+        return (T)sqrtl(x * x + y * y + z * z);
     }
     T magnitudeSquared() const {
         return x * x + y * y + z * z;

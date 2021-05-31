@@ -4,7 +4,7 @@
 #include <string>
 #include <sstream>
 
-template<class T = float>
+template<class T>
 struct Matrix22 {
     public:
         /**

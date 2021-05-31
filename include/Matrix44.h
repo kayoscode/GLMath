@@ -36,25 +36,25 @@ struct Matrix44{
 
     Matrix44(const Matrix44<T>& mat)
     {
-        data[0][0] = mat[0][0];
-        data[1][0] = mat[1][0];
-        data[2][0] = mat[2][0];
-        data[3][0] = mat[3][0];
+        data[0][0] = mat.data[0][0];
+        data[1][0] = mat.data[1][0];
+        data[2][0] = mat.data[2][0];
+        data[3][0] = mat.data[3][0];
 
-        data[0][1] = mat[0][1];
-        data[1][1] = mat[1][1];
-        data[2][1] = mat[2][1];
-        data[3][1] = mat[3][1];
+        data[0][1] = mat.data[0][1];
+        data[1][1] = mat.data[1][1];
+        data[2][1] = mat.data[2][1];
+        data[3][1] = mat.data[3][1];
 
-        data[0][2] = mat[0][2];
-        data[1][2] = mat[1][2];
-        data[2][2] = mat[2][2];
-        data[3][2] = mat[3][2];
+        data[0][2] = mat.data[0][2];
+        data[1][2] = mat.data[1][2];
+        data[2][2] = mat.data[2][2];
+        data[3][2] = mat.data[3][2];
 
-        data[0][3] = mat[0][3];
-        data[1][3] = mat[1][3];
-        data[2][3] = mat[2][3];
-        data[3][3] = mat[3][3];
+        data[0][3] = mat.data[0][3];
+        data[1][3] = mat.data[1][3];
+        data[2][3] = mat.data[2][3];
+        data[3][3] = mat.data[3][3];
     }
 
     Matrix44<T>& operator=(const Matrix44<T>& mat){

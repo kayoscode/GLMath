@@ -7,31 +7,39 @@
 #include "Matrix44.h"
 
 template <typename T = float>
-struct Vector4 {
-    //assignment constructors
-
-    Vector4(T x = 0, T y = 0, T z = 0, T w = 0) :x(x), y(y), z(z), w(w) {
+struct Vector4
+{
+    Vector4(T x = 0, T y = 0, T z = 0, T w = 0) : x(x), y(y), z(z), w(w)
+    {
     }
 
-    Vector4(const Vector2<T>& other, T z = 0, T w = 0) :x(other.x), y(other.y), z(z), w(w) {
+    Vector4(const Vector2<T> &other, T z = 0, T w = 0) : x(other.x), y(other.y), z(z), w(w)
+    {
     }
 
-    Vector4(const Vector3<T>& other, T w = 0) :x(other.x), y(other.y), z(other.z), w(w) {
+    Vector4(const Vector3<T> &other, T w = 0) : x(other.x), y(other.y), z(other.z), w(w)
+    {
     }
 
-    //copy constructor
-    Vector4(const Vector4<T>& other): x(other.x), y(other.y), z(other.x), w(other.w) {
+    /**
+     * Copy constructor.
+     */
+    Vector4(const Vector4<T> &other) : x(other.x), y(other.y), z(other.z), w(other.w)
+    {
     }
 
-    //implicit casts
-    operator std::string() {
+    operator std::string()
+    {
         std::stringstream builder;
         builder << "X: " << x << " |Y: " << y << " |Z: " << z << " |W: " << w;
         return builder.str();
     }
 
-    //equals operator
-    Vector4<T>& operator =(const Vector4<T>& other) {
+    /**
+     * Assignment operator
+     */
+    Vector4<T> &operator=(const Vector4<T> &other)
+    {
         x = other.x;
         y = other.y;
         z = other.z;
@@ -39,21 +47,27 @@ struct Vector4 {
         return *this;
     }
 
-    //addition operators
-    Vector4<T> operator +(Vector4<T>& other) {
+    Vector4<T> operator+(Vector4<T> &other)
+    {
         return Vector4<T>(x + other.x, y + other.y, z + other.z, w + other.w);
     }
-    Vector4<T>& operator +=(const Vector4<T>& other) {
+
+    Vector4<T> &operator+=(const Vector4<T> &other)
+    {
         x += other.x;
         y += other.y;
         z += other.z;
         w += other.w;
         return *this;
     }
-    Vector4<T> operator -(const Vector4<T>& other) {
+
+    Vector4<T> operator-(const Vector4<T> &other)
+    {
         return Vector4<T>(x - other.x, y - other.y, z - other.z, w - other.w);
     }
-    Vector4<T>& operator -=(const Vector4<T>& other) {
+
+    Vector4<T> &operator-=(const Vector4<T> &other)
+    {
         x -= other.x;
         y -= other.y;
         z -= other.z;
@@ -61,12 +75,13 @@ struct Vector4 {
         return *this;
     }
 
-    //scaling
-    Vector4<T> operator *(T& scale) {
+    Vector4<T> operator*(const T &scale)
+    {
         return Vector4<T>(x * scale, y * scale, z * scale, w * scale);
     }
 
-    Vector4<T>& operator *=(T& scale) {
+    Vector4<T> &operator*=(const T &scale)
+    {
         x *= scale;
         y *= scale;
         z *= scale;
@@ -74,13 +89,13 @@ struct Vector4 {
         return *this;
     }
 
-    //dot product
-    T operator *(const Vector4<T>& other) {
+    T operator*(const Vector4<T> &other)
+    {
         return x * other.x + y * other.y + z * other.z + w + other.w;
     }
 
-    //normalize
-    Vector4<T>& normalize() {
+    Vector4<T> &normalize()
+    {
         T mag = magnitude();
         x /= mag;
         y /= mag;
@@ -88,25 +103,31 @@ struct Vector4 {
         w /= mag;
         return *this;
     }
-    Vector4<T> retNormalized() const  {
+
+    Vector4<T> retNormalized() const
+    {
         T mag = magnitude();
         return Vector4<T>(x / mag, y / mag, z / mag, w / mag);
     }
 
-    //magnitude
-    T magnitude() const {
+    // magnitude
+    T magnitude() const
+    {
         return sqrtl(x * x + y * y + z * z + w * w);
     }
-    T magnitudeSquared() const {
+
+    T magnitudeSquared() const
+    {
         return x * x + y * y + z * z + w * w;
     }
 
-    //negate
-    Vector4<T> negate() {
+    // negate
+    Vector4<T> negate()
+    {
         return Vector4<T>(x * -1, y * -1, z * -1, w * -1);
     }
 
-    //4d swizzle
+    // 4d swizzle
     Vector4<T> wxyz() const { return Vector4<T>(w, x, y, z); }
     Vector4<T> wxzy() const { return Vector4<T>(w, x, z, y); }
     Vector4<T> wyxz() const { return Vector4<T>(w, y, x, z); }
@@ -131,7 +152,7 @@ struct Vector4 {
     Vector4<T> zxyw() const { return Vector4<T>(z, x, y, w); }
     Vector4<T> zywx() const { return Vector4<T>(z, y, w, x); }
     Vector4<T> zyxw() const { return Vector4<T>(z, y, x, w); }
-    //3d swizzle
+    // 3d swizzle
     Vector3<T> wxy() const { return Vector3<T>(w, x, y); }
     Vector3<T> wxz() const { return Vector3<T>(w, x, z); }
     Vector3<T> wyx() const { return Vector3<T>(w, y, x); }
@@ -156,7 +177,7 @@ struct Vector4 {
     Vector3<T> zxy() const { return Vector3<T>(z, x, y); }
     Vector3<T> zyw() const { return Vector3<T>(z, y, w); }
     Vector3<T> zyx() const { return Vector3<T>(z, y, x); }
-    //2s swizzle
+    // 2s swizzle
     Vector2<T> wx() const { return Vector2<T>(w, x); }
     Vector2<T> wy() const { return Vector2<T>(w, y); }
     Vector2<T> wz() const { return Vector2<T>(w, z); }

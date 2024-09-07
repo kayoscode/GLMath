@@ -5,89 +5,125 @@
 #include <string>
 
 template <typename T = float>
-struct Vector2 {
-    //assignment constructors
-    Vector2(T x):x(x), y(x){
-    }
-    Vector2(T x = 0, T y = 0) :x(x), y(y) {
-    }
-    //copy constructor
-    Vector2(const Vector2<T>& other): x(other.x), y(other.y){
+struct Vector2
+{
+    /**
+     * Standard constructor.
+     */
+    Vector2(T x) : x(x), y(x)
+    {
     }
 
-    //implicit casts
-    operator std::string() const {
+    Vector2(T x = 0, T y = 0) : x(x), y(y)
+    {
+    }
+
+    // copy constructor
+    Vector2(const Vector2<T> &other) : x(other.x), y(other.y)
+    {
+    }
+
+    /**
+     * Implicit cast
+     */
+    operator std::string() const
+    {
         std::stringstream builder;
         builder << "X: " << x << " |Y: " << y;
         return builder.str();
     }
 
-    //equals operator
-    Vector2<T>& operator =(const Vector2<T>& other) {
+    /**
+     * Assignment operator
+     */
+    Vector2<T> &operator=(const Vector2<T> &other)
+    {
         x = other.x;
         y = other.y;
         return *this;
     }
 
-    //addition operators
-    Vector2<T> operator +(const Vector2<T>& other) const {
+    Vector2<T> operator+(const Vector2<T> &other) const
+    {
         return Vector2<T>(x + other.x, y + other.y);
     }
-    Vector2<T>& operator +=(const Vector2<T>& other) {
+
+    Vector2<T> &operator+=(const Vector2<T> &other)
+    {
         x += other.x;
         y += other.y;
         return *this;
     }
-    Vector2<T> operator -(const Vector2<T>& other) const {
+
+    Vector2<T> operator-(const Vector2<T> &other) const
+    {
         return Vector2<T>(x - other.x, y - other.y);
     }
-    Vector2<T>& operator -=(Vector2<T>& other) {
+
+    Vector2<T> &operator-=(Vector2<T> &other)
+    {
         x -= other.x;
         y -= other.y;
         return *this;
     }
 
-    //scaling
-    Vector2<T> operator *(T& scale) const {
+    Vector2<T> operator*(const T &scale) const
+    {
         return Vector2<T>(x * scale, y * scale);
     }
-    Vector2<T>& operator *=(T& scale) {
+
+    Vector2<T> &operator*=(const T &scale)
+    {
         x *= scale;
         y *= scale;
         return *this;
     }
 
-    //dot product
-    T operator *(const Vector2<T>& other) const {
+    /**
+     * Compute the dot product.
+     */
+    T operator*(const Vector2<T> &other) const
+    {
         return x * other.x + y * other.y;
     }
-    
-    //normalize
-    Vector2<T>& normalize() {
+
+    /**
+     * Normalize to get length 1.
+     */
+    Vector2<T> &normalize()
+    {
         T mag = magnitude();
         x /= mag;
         y /= mag;
         return *this;
     }
-    Vector2<T> retNormalized() {
+
+    Vector2<T> retNormalized() const
+    {
         T mag = magnitude();
         return Vector2<T>(x / mag, y / mag);
     }
 
-    //magnitude
-    T magnitude() {
+    T magnitude()
+    {
         return sqrtl(x * x + y * y);
     }
-    T magnitudeSquared() {
+
+    T magnitudeSquared()
+    {
         return x * x + y * y;
     }
 
-    //negation
-    Vector2<T> negate() {
+    Vector2<T> negate()
+    {
         return Vector2<T>(x * -1, y * -1);
     }
-    
-    //data
+
+    // Swizzling operators.
+    Vector2<T> xy() const { return Vector2<T>(x, y); }
+    Vector2<T> yx() const { return Vector2<T>(y, x); }
+
+    // data
     T x, y;
 };
 

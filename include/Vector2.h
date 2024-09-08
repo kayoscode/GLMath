@@ -104,12 +104,12 @@ struct Vector2
         return Vector2<T>(x / mag, y / mag);
     }
 
-    T magnitude()
+    T magnitude() const
     {
         return sqrtl(x * x + y * y);
     }
 
-    T magnitudeSquared()
+    T magnitudeSquared() const
     {
         return x * x + y * y;
     }

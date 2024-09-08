@@ -107,7 +107,7 @@ public:
     {
         T x = data[0][0] * right.x + data[1][0] * right.y;
         T y = data[0][1] * right.x + data[1][1] * right.y;
-        return Vector2<T>(x, y) :
+        return Vector2<T>(x, y);
     }
 
     /**

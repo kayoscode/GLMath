@@ -2,7 +2,6 @@
 #define INCLUDE_VECTOR2_H
 
 #include <cmath>
-#include <string>
 
 template <typename T = float>
 struct Vector2
@@ -21,16 +20,6 @@ struct Vector2
     // copy constructor
     Vector2(const Vector2<T> &other) : x(other.x), y(other.y)
     {
-    }
-
-    /**
-     * Implicit cast
-     */
-    operator std::string() const
-    {
-        std::stringstream builder;
-        builder << "X: " << x << " |Y: " << y;
-        return builder.str();
     }
 
     /**

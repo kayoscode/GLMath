@@ -26,13 +26,6 @@ struct Vector3
     {
     }
 
-    operator std::string() const
-    {
-        std::stringstream builder;
-        builder << "X: " << x << " |Y: " << y << " |Z: " << z;
-        return builder.str();
-    }
-
     /**
      * Assignment operator.
      */

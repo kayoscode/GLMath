@@ -28,13 +28,6 @@ struct Vector4
     {
     }
 
-    operator std::string()
-    {
-        std::stringstream builder;
-        builder << "X: " << x << " |Y: " << y << " |Z: " << z << " |W: " << w;
-        return builder.str();
-    }
-
     /**
      * Assignment operator
      */

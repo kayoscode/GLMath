@@ -12,7 +12,7 @@ public:
     /**
      * constructor
      * */
-    Matrix22(T m00 = 1, T m01 = 0, T m10 = 0, T m11 = 1)
+    constexpr Matrix22(T m00 = 1, T m01 = 0, T m10 = 0, T m11 = 1)
     {
         data[0][0] = m00;
         data[1][0] = m10;
@@ -23,7 +23,7 @@ public:
     /**
      * copy constructor
      * */
-    Matrix22(const Matrix22<T> &mat)
+    constexpr Matrix22(const Matrix22<T> &mat)
     {
         data[0][0] = mat.data[0][0];
         data[1][0] = mat.data[1][0];

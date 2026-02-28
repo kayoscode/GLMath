@@ -7,22 +7,22 @@
 template <typename T = float>
 struct Vector3
 {
-    Vector3(T x) : x(x), y(x), z(x)
+    constexpr Vector3(T x) : x(x), y(x), z(x)
     {
     }
 
-    Vector3(T x = 0, T y = 0, T z = 0) : x(x), y(y), z(z)
+    constexpr Vector3(T x = 0, T y = 0, T z = 0) : x(x), y(y), z(z)
     {
     }
 
-    Vector3(const Vector2<T> &other, T z = 0) : x(other.x), y(other.y), z(z)
+    constexpr Vector3(const Vector2<T> &other, T z = 0) : x(other.x), y(other.y), z(z)
     {
     }
 
     /**
      * Copy constructor.
      */
-    Vector3(const Vector3<T> &other) : x(other.x), y(other.y), z(other.z)
+    constexpr Vector3(const Vector3<T> &other) : x(other.x), y(other.y), z(other.z)
     {
     }
 

@@ -13,18 +13,18 @@ template<typename T>
 class Quaternion
 {
     public: 
-        Quaternion(T x = 0, T y = 0, T z = 0, T w = 1) 
+        constexpr Quaternion(T x = 0, T y = 0, T z = 0, T w = 1) 
             :x(x), y(y), z(z), w(w)
         {
         }
 
-        Quaternion(const Vector3<T>& axis, T angle) 
+        constexpr Quaternion(const Vector3<T>& axis, T angle) 
             :x(0), y(0), z(0), w(1)
         {
             setToAxisAngle(axis, angle);
         }
 
-        Quaternion(const Quaternion<T>& q) 
+        constexpr Quaternion(const Quaternion<T>& q) 
             :x(q.x), y(q.y), z(q.z), w(q.w)
         {
 

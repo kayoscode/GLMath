@@ -8,7 +8,7 @@
 
 template <typename T = float>
 struct Matrix44{
-    Matrix44(T m00 = 1, T m01 = 0, T m02 = 0, T m03 = 0,
+    constexpr Matrix44(T m00 = 1, T m01 = 0, T m02 = 0, T m03 = 0,
                 T m10 = 0, T m11 = 1, T m12 = 0, T m13 = 0,
                 T m20 = 0, T m21 = 0, T m22 = 1, T m23 = 0,
                 T m30 = 0, T m31 = 0, T m32 = 0, T m33 = 1)
@@ -34,7 +34,7 @@ struct Matrix44{
         data[3][3] = m33;
     }
 
-    Matrix44(const Matrix44<T>& mat)
+    constexpr Matrix44(const Matrix44<T>& mat)
     {
         data[0][0] = mat.data[0][0];
         data[1][0] = mat.data[1][0];

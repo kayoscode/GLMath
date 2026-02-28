@@ -6,7 +6,7 @@
 template<typename T = float>
 
 struct Matrix33 {
-	Matrix33(T m00 = 1, T m01 = 0, T m02 = 0, T m10 = 0, T m11 = 1, T m12 = 0,
+	constexpr Matrix33(T m00 = 1, T m01 = 0, T m02 = 0, T m10 = 0, T m11 = 1, T m12 = 0,
 				T m20 = 0, T m21 = 0, T m22 = 1)
 	{
 		data[0][0] = m00;
@@ -22,7 +22,7 @@ struct Matrix33 {
 		data[2][2] = m22;
 	}
 
-	Matrix33(const Matrix33<T>& mat)
+	constexpr Matrix33(const Matrix33<T>& mat)
 	{
 		data[0][0] = mat.data[0][0];
 		data[1][0] = mat.data[1][0];
@@ -37,7 +37,7 @@ struct Matrix33 {
 		data[2][2] = mat.data[2][2];
 	}
 
-	Matrix33<T>& operator=(const Matrix33<T>& mat){
+	constexpr Matrix33<T>& operator=(const Matrix33<T>& mat){
 		data[0][0] = mat.data[0][0];
 		data[0][1] = mat.data[0][1];
 		data[0][2] = mat.data[0][2];

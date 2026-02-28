@@ -9,16 +9,16 @@ struct Vector2
     /**
      * Standard constructor.
      */
-    Vector2(T x) : x(x), y(x)
+    constexpr Vector2(T x) : x(x), y(x)
     {
     }
 
-    Vector2(T x = 0, T y = 0) : x(x), y(y)
+    constexpr Vector2(T x = 0, T y = 0) : x(x), y(y)
     {
     }
 
     // copy constructor
-    Vector2(const Vector2<T> &other) : x(other.x), y(other.y)
+    constexpr Vector2(const Vector2<T> &other) : x(other.x), y(other.y)
     {
     }
 

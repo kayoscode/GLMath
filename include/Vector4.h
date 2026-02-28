@@ -6,18 +6,18 @@
 #include <cmath>
 
 template <typename T = float> struct Vector4 {
-  Vector4(T x = 0, T y = 0, T z = 0, T w = 0) : x(x), y(y), z(z), w(w) {}
+  constexpr Vector4(T x = 0, T y = 0, T z = 0, T w = 0) : x(x), y(y), z(z), w(w) {}
 
-  Vector4(const Vector2<T> &other, T z = 0, T w = 0)
+  constexpr Vector4(const Vector2<T> &other, T z = 0, T w = 0)
       : x(other.x), y(other.y), z(z), w(w) {}
 
-  Vector4(const Vector3<T> &other, T w = 0)
+  constexpr Vector4(const Vector3<T> &other, T w = 0)
       : x(other.x), y(other.y), z(other.z), w(w) {}
 
   /**
    * Copy constructor.
    */
-  Vector4(const Vector4<T> &other)
+  constexpr Vector4(const Vector4<T> &other)
       : x(other.x), y(other.y), z(other.z), w(other.w) {}
 
   /**
